@@ -1,0 +1,90 @@
+-- Ejercicio Pre entrega 3
+-- Autor: Milagros Lucía Morales
+-- Fecha: 12-07-2026
+
+-- Seccion DDL
+CREATE DATABASE Ventas_Tech_DB;
+
+USE Ventas_Tech_DB;
+
+DROP TABLE IF EXISTS Ventas;
+DROP TABLE IF EXISTS Productos;
+DROP TABLE IF EXISTS Clientes;
+DROP TABLE IF EXISTS Categorias;
+
+CREATE TABLE Categorias(
+id_categoria int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+nombre_categoria varchar(50) NOT NULL,
+descripcion varchar(200)
+);
+
+CREATE TABLE Clientes(
+id_cliente int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+nombre varchar(100) NOT NULL,
+email varchar(100) UNIQUE,
+ciudad varchar(50),
+fecha_registro date NOT NULL
+);
+
+CREATE TABLE Productos(
+id_producto int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+nombre_producto varchar(100) NOT NULL,
+id_categoria int,
+FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria),
+precio decimal(10,2) NOT NULL,
+stock int DEFAULT 0,
+activo bit DEFAULT 1
+);
+
+CREATE TABLE Ventas(
+id_venta int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+id_cliente int NOT NULL,
+FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
+id_producto int NOT NULL,
+FOREIGN KEY (id_producto) REFERENCES Productos(id_producto),
+cantidad int NOT NULL,
+precio_unitario decimal(10,2) NOT NULL,
+fecha_venta date NOT NULL
+);
+
+-- Seccion DML
+
+INSERT INTO Categorias (nombre_categoria, descripcion)
+VALUES ('Computación', 'Laptops, PCs y monitores'),
+('Accesorios', 'Periféricos y complementos'),
+('Audio', 'Auriculares y parlantes'),
+('Almacenamiento', 'Discos y memorias');
+
+INSERT INTO Clientes (nombre, email, ciudad, fecha_registro)
+VALUES ('María López',   'maria@mail.com',   'Buenos Aires', '2024-01-05'),
+('Carlos Ruiz',   'carlos@mail.com',  'Córdoba',      '2024-01-10'), 
+('Ana Gómez',     'ana@mail.com',     'Rosario',      '2024-02-01'),
+('Pedro Sanz',    'pedro@mail.com',   'Mendoza',      '2024-02-15'),
+('Laura Torres',  'laura@mail.com',   'Tucumán',      '2024-03-01');
+
+INSERT INTO Productos (nombre_producto, id_categoria, precio, stock, activo)
+VALUES ('Laptop Pro 15', 1, 1200.00, 15, 1),
+('Mouse Inalámbrico', 2, 28.00, 80, 1),
+('Monitor 4K 27"', 1, 450.00, 12, 1),
+('Auriculares BT Pro', 3, 120.00, 35, 1),
+('SSD Externo 1TB', 4, 130.00, 18, 1),
+('Teclado Mecánico', 2, 95.00, 40, 1);
+
+INSERT INTO Ventas (id_cliente, id_producto, cantidad, precio_unitario, fecha_venta)
+VALUES (1, 1, 2, 1200.00, '2024-03-05'),
+(2, 2, 5,   28.00, '2024-03-06'),
+(3, 3, 1,  450.00, '2024-03-07'),
+(1, 4, 2,  120.00, '2024-03-08'),
+(4, 5, 3,  130.00, '2024-03-10'),
+(2, 6, 4,   95.00, '2024-03-11'),
+(5, 1, 1, 1200.00, '2024-03-12'),
+(3, 2, 8,   28.00, '2024-03-13'),
+(4, 4, 1,  120.00, '2024-03-14'),
+(5, 3, 2,  450.00, '2024-03-15');
+
+-- Control de datos cargados correctamente
+
+SELECT * FROM Categorias;
+SELECT * FROM Clientes;
+SELECT * FROM Productos;
+SELECT * FROM Ventas;
