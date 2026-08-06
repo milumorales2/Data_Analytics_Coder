@@ -1,4 +1,6 @@
-
+-- Ejercicio Lenguaje M 
+-- Autor: Milagros Lucía Morales
+-- Fecha: 06-08-2026
 
 let    // Paso 1: Fuente de datos original
     Origen = Table.FromRows({
